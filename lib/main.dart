@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
           focusedBorder: Config.focusBorder,
           errorBorder: Config.errorBorder,
           enabledBorder: Config.OutlinedBorder,
-          floatingLabelStyle: TextStyle(color: Config.PrimaryColor),
+          floatingLabelStyle: TextStyle(color: Colors.black),
           prefixIconColor: Colors.black38,
         ),
         scaffoldBackgroundColor: Colors.white,
