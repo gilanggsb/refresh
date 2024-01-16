@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_homeproyek/utils/config.dart';
 import 'package:my_homeproyek/main_layout.dart';
 import 'package:my_homeproyek/screens/auth_page.dart';
+import 'package:my_homeproyek/components/login_form.dart';
 
 void main() {
   runApp(const MyApp());
@@ -42,7 +43,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const Authpage(),
-        'main': (context) => const MainLayout()
+        'main': (context) => const MainLayout(),
+        'logout': (context) => const LoginForm()
       },
     );
   }

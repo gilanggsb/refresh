@@ -22,7 +22,7 @@ class Config {
   static const spaceSmall = SizedBox(
     height: 25,
   );
-  static final spaceMdium = SizedBox(
+  static final spaceMedium = SizedBox(
     height: screenHeight! * 0.05,
   );
   static final spaceBig = SizedBox(
@@ -41,4 +41,5 @@ class Config {
         color: Colors.red,
       ));
   static const PrimaryColor = Colors.greenAccent;
+  static const SecondaryColor = Colors.blueAccent;
 }
