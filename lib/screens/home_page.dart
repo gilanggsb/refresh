@@ -14,15 +14,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> medCat = [
     {
-      "icon": FontAwesomeIcons.userDoctor,
+      "icon": FontAwesomeIcons.user,
       "category": "General",
     },
     {
-      "icon": FontAwesomeIcons.heartPulse,
+      "icon": FontAwesomeIcons.book,
       "category": "Cardiology",
     },
     {
-      "icon": FontAwesomeIcons.lungs,
+      "icon": FontAwesomeIcons.republican,
       "category": "Respirations",
     },
     {
@@ -70,9 +70,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              Config.spaceMedium,
+              Config.spaceSmall,
               const Text(
-                'Category',
+                'category',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
