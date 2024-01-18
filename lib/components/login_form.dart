@@ -1,21 +1,59 @@
-// ignore_for_file: unnecessary_const
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:my_homeproyek/main_layout.dart';
 import 'package:my_homeproyek/utils/config.dart';
 import 'package:my_homeproyek/components/button.dart';
+import 'package:http/http.dart' as http;
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
-
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool obsecurePass = true;
+  bool _isLoading = false;
+
+  Future<void> _login(BuildContext context) async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+      });
+    }
+    final String url =
+        'http://108.136.252.63:8080/refresh/login.php'; // Replace with your API endpoint
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        body: {
+          'USERID': _emailController.text,
+          'USERPASSWORD': _passController.text,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Authentication successful, handle the response accordingly
+        print('Login successful!');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainLayout()),
+        );
+      } else {
+        print('Login failed: ${response.body}');
+      }
+    } catch (e) {
+      // Handle potential network or server errors
+      print('Error: $e');
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +73,12 @@ class _LoginFormState extends State<LoginForm> {
               prefixIcon: Icon(Icons.email_outlined),
               prefixIconColor: Config.PrimaryColor,
             ),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your username';
+              }
+              return null;
+            },
           ),
           Config.spaceSmall,
           TextFormField(
@@ -63,15 +107,28 @@ class _LoginFormState extends State<LoginForm> {
                             Icons.visibility_outlined,
                             color: Config.PrimaryColor,
                           ))),
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter your username';
+              }
+              return null;
+            },
           ),
+
           Config.spaceSmall,
-          Button(
-              width: double.infinity,
-              title: 'Sign In',
-              onPressed: () {
-                Navigator.of(context).pushNamed('main');
-              },
-              disable: false)
+          ElevatedButton(
+            onPressed: _isLoading ? null : () => _login(context),
+            child: _isLoading ? CircularProgressIndicator() : Text('Login'),
+          ),
+          // Button(
+          //     width: double.infinity,
+          //     title: 'Sign In',
+          //     onPressed: () => {
+          //           if (_formKey.currentState!= null)
+          //             {_formKey.currentState!.validate()},
+          //           {userLogin()}
+          //         },
+          //     disable: false)
         ],
       ),
     );
