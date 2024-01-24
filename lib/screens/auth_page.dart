@@ -24,13 +24,22 @@ class _AuthpageState extends State<Authpage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                AppText.enText['welcome_text']!,
-                style: const TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
+              Align(
+                alignment: Alignment.topCenter,
+                child: Image.network(
+                  AppText.enText['welcome_image']!,
+                  width: 150,
+                  height: 150,
+                  fit: BoxFit.cover,
                 ),
               ),
+              // Text(
+              //   AppText.enText['welcome_text']!,
+              //   style: const TextStyle(
+              //     fontSize: 36,
+              //     fontWeight: FontWeight.bold,
+              //   ),
+              // ),
               Config.spaceSmall,
               Text(
                 AppText.enText['SignIn_text']!,

@@ -7,6 +7,7 @@ class AppText {
         'You can easily sign up, and connect to the Doctors nearby you',
     'signUp_text': 'Don\'t have an account?',
     'social-login': 'Or continue with social account',
-    'forgot-password': 'Forgot your password?'
+    'forgot-password': 'Forgot your password?',
+    'welcome_image': 'assets/6.png'
   };
 }

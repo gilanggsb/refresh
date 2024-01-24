@@ -1,10 +1,9 @@
-import 'dart:convert';
+// login_form.dart
 import 'package:flutter/material.dart';
 import 'package:my_homeproyek/main_layout.dart';
 import 'package:my_homeproyek/utils/config.dart';
 import 'package:my_homeproyek/components/button.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:my_homeproyek/api_service.dart'; // Import ApiService
 
 class LoginForm extends StatefulWidget {
   @override
@@ -15,139 +14,9 @@ class _LoginFormState extends State<LoginForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final ApiService apiService = ApiService();
+  final ApiService apiService = ApiService(); // Gunakan ApiService
+
   bool obsecurePass = true;
-  bool _isLoading = false;
-
-  // Future<void> _login(BuildContext context) async {
-  //   if (_formKey.currentState!.validate()) {
-  //     setState(() {
-  //       _isLoading = true;
-  //     });
-  //   }
-  //   final String url =
-  //       'http://108.136.252.63:8080/refresh/login.php'; // Replace with your API endpoint
-
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse(url),
-  //       body: {
-  //         'USERID': _emailController.text,
-  //         'USERPASSWORD': _passController.text,
-  //       },
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       // Authentication successful, handle the response accordingly
-  //       print('Login successful!');
-  //       Navigator.pushReplacement(
-  //         context,
-  //         MaterialPageRoute(builder: (context) => MainLayout()),
-  //       );
-  //     } else {
-  //       print('Login failed: ${response.body}');
-  //     }
-  //   } catch (e) {
-  //     // Handle potential network or server errors
-  //     print('Error: $e');
-  //   } finally {
-  //     setState(() {
-  //       _isLoading = false;
-  //     });
-  //   }
-  // }
-
-  // void _validateInputs() {
-  //   if (_formKey.currentState!.validate()) {
-  //     //If all data are correct then save data to out variables
-  //     _formKey.currentState!.save();
-  //     doLogin(_emailController.text, _passController.text);
-  //   }
-  // }
-
-  // doLogin(email, password) async {
-  //   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-
-  //   try {
-  //     final response = await http.post(
-  //         Uri.parse("http://108.136.252.63:8080/refresh/login.php"),
-  //         headers: {'Content-Type': 'application/json; charset=UTF-8'},
-  //         body: jsonEncode({
-  //           "USERID": email,
-  //           "USERPASSWORD": password,
-  //         }));
-
-  //     final output = jsonDecode(response.body);
-  //     if (response.statusCode == 200) {
-  //       Navigator.of(_keyLoader.currentContext!, rootNavigator: false).pop();
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //             content: Text(
-  //           output['message'],
-  //           style: const TextStyle(fontSize: 16),
-  //         )),
-  //       );
-
-  //       if (output['success'] == true) {
-  //         saveSession(email);
-  //       }
-  //       //debugPrint(output['message']);
-  //     } else {
-  //       Navigator.of(_keyLoader.currentContext!, rootNavigator: false).pop();
-  //       //debugPrint(output['message']);
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //             content: Text(
-  //           output.toString(),
-  //           style: const TextStyle(fontSize: 16),
-  //         )),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     Navigator.of(_keyLoader.currentContext!, rootNavigator: false).pop();
-
-  //     debugPrint('$e');
-  //   }
-  // }
-
-  // saveSession(String email) async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   await pref.setString("USERID", email);
-  //   await pref.setBool("is_login", true);
-
-  //   Navigator.pushAndRemoveUntil(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder: (BuildContext context) => const MainLayout(),
-  //     ),
-  //     (route) => false,
-  //   );
-  // }
-
-  // void ceckLogin() async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   var islogin = pref.getBool("is_login");
-  //   if (islogin != null && islogin) {
-  //     Navigator.pushAndRemoveUntil(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (BuildContext context) => const MainLayout(),
-  //       ),
-  //       (route) => false,
-  //     );
-  //   }
-  // }
-
-  // @override
-  // void initState() {
-  //   ceckLogin();
-  //   super.initState();
-  // }
-
-  // @override
-  // dispose() {
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -165,14 +34,8 @@ class _LoginFormState extends State<LoginForm> {
               labelText: 'Email',
               alignLabelWithHint: true,
               prefixIcon: Icon(Icons.email_outlined),
-              prefixIconColor: Config.PrimaryColor,
+              prefixIconColor: Config.SecondaryColor,
             ),
-            validator: (USERID) {
-              if (USERID == null || USERID.isEmpty) {
-                return 'Please enter your username';
-              }
-              return null;
-            },
           ),
           Config.spaceSmall,
           TextFormField(
@@ -201,16 +64,11 @@ class _LoginFormState extends State<LoginForm> {
                             Icons.visibility_outlined,
                             color: Config.PrimaryColor,
                           ))),
-            validator: (USERPASSWORD) {
-              if (USERPASSWORD == null || USERPASSWORD.isEmpty) {
-                return 'Please enter your username';
-              }
-              return null;
-            },
           ),
-
           Config.spaceSmall,
-          ElevatedButton(
+          Button(
+            width: double.infinity,
+            title: 'Sign In',
             onPressed: () async {
               String USERID = usernameController.text;
               String USERPASSWORD = passwordController.text;
@@ -218,71 +76,44 @@ class _LoginFormState extends State<LoginForm> {
               try {
                 Map<String, dynamic> result =
                     await apiService.loginUser(USERID, USERPASSWORD);
-
-                // Handle the login result
+                print('Login Result: ${result["code"]}');
                 print('Login Result: $result');
-
-                // Jika login berhasil, pindah ke halaman dashboard
-                if (result['success'] == true) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainLayout()),
-                  );
+                if (result['code'] == "1") {
+                  showSuccess("user was successfully login");
                 } else {
-                  // Handle login failure, show an error message to the user if needed
                   print('Login Failed');
                 }
               } catch (error) {
-                // Handle errors, e.g., show an error message to the user.
                 print('Error: $error');
               }
             },
-            child: Text('Login'),
+            disable: false,
           ),
-          // Button(
-          //     width: double.infinity,
-          //     title: 'Sign In',
-          //     onPressed: () => {
-          //           if (_formKey.currentState!= null)
-          //             {_formKey.currentState!.validate()},
-          //           {userLogin()}
-          //         },
-          //     disable: false)
         ],
       ),
     );
   }
-}
 
-class ApiService {
-  final String baseUrl = 'http://108.136.252.63:8080/refresh/login.php';
-
-  Future<Map<String, dynamic>> loginUser(
-      String USERID, String USERPASSWORD) async {
-    try {
-      final response = await http.post(
-        Uri.parse(
-            '$baseUrl/LOGIN'), // Sesuaikan dengan form action pada API Anda
-        body: {
-          'ACTION':
-              'LOGIN', // Sesuaikan dengan nilai action yang diharapkan oleh API
-          'USERID': USERID,
-          'USERPASSWORD': USERPASSWORD,
-          // ... tambahkan parameter lain jika diperlukan oleh API
-        },
-      );
-
-      if (response.statusCode == 200) {
-        // Jika permintaan berhasil, parsing respons JSON
-        Map<String, dynamic> result = jsonDecode(response.body);
-        return result;
-      } else {
-        // Jika permintaan gagal, lemparkan exception
-        throw Exception('Failed to login');
-      }
-    } catch (error) {
-      print('Error: $error');
-      throw error;
-    }
+  void showSuccess(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Success!"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const MainLayout()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

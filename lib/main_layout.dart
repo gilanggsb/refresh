@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:my_homeproyek/drawer.dart';
 import 'package:my_homeproyek/screens/appointment_page.dart';
 import 'package:my_homeproyek/screens/home_page.dart';
 
 class MainLayout extends StatefulWidget {
-  const MainLayout({super.key});
+  const MainLayout({Key? key}) : super(key: key);
 
   @override
   State<MainLayout> createState() => _MainLayoutState();
@@ -13,41 +13,30 @@ class MainLayout extends StatefulWidget {
 class _MainLayoutState extends State<MainLayout> {
   int currentPage = 0;
   final PageController _page = PageController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageView(
-        controller: _page,
-        onPageChanged: ((value) {
-          setState(() {
-            currentPage = value;
-          });
-        }),
-        children: const <Widget>[
-          HomePage(),
-          AppointmentPage(),
-        ],
+      appBar: AppBar(
+        title: const Text('My App'),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentPage,
-        onTap: (page) {
-          setState(() {
-            currentPage = page;
-            _page.animateToPage(
-              page,
-              duration: const Duration(microseconds: 500),
-              curve: Curves.easeInOut,
-            );
-          });
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.houseChimneyMedical),
-            label: 'Home',
+      drawer: MyDrawer(),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          // Background Image
+          Image.asset(
+            'assets/5.png',
+            fit: BoxFit.cover,
           ),
-          BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.solidCalendarCheck),
-            label: 'Appointments',
+          // PageView
+          PageView(
+            controller: _page,
+            onPageChanged: ((value) {
+              setState(() {
+                currentPage = value;
+              });
+            }),
           ),
         ],
       ),
