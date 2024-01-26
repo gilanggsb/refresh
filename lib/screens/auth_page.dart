@@ -25,14 +25,14 @@ class _AuthpageState extends State<Authpage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Align(
-                alignment: Alignment.topCenter,
-                child: Image.network(
-                  "https://cdn.pixabay.com/photo/2024/01/24/02/59/design-8528673_1280.jpg",
-                  width: 150,
-                  height: 150,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  alignment: Alignment.topCenter,
+                  child: Image(
+                    image: NetworkImage(
+                        "https://cdn.pixabay.com/photo/2024/01/26/06/34/design-8533480_1280.jpg"),
+                    fit: BoxFit.cover,
+                    width: 150,
+                    height: 150,
+                  )),
               // Text(
               //   AppText.enText['welcome_text']!,
               //   style: const TextStyle(

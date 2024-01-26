@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_homeproyek/components/button.dart';
 import 'package:my_homeproyek/main_layout.dart';
-import 'package:my_homeproyek/screens/appointment_page.dart';
+import 'package:my_homeproyek/screens/stock_request.dart';
 import 'package:my_homeproyek/screens/auth_page.dart';
 import 'package:my_homeproyek/screens/home_page.dart';
 
@@ -73,9 +73,10 @@ class MyDrawer extends StatelessWidget {
               ),
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(
-                          "https://cdn.pixabay.com/photo/2024/01/24/02/59/design-8528673_1280.jpg"),
-                      fit: BoxFit.cover)),
+                image: NetworkImage(
+                    "https://cdn.pixabay.com/photo/2024/01/26/06/34/design-8533480_1280.jpg"),
+                fit: BoxFit.cover,
+              )),
             ),
             ListTile(
               leading: Icon(Icons.home),
@@ -88,7 +89,7 @@ class MyDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: Icon(Icons.people),
-              title: Text("Pegawai"),
+              title: Text("Stock Request"),
               onTap: () {
                 Navigator.pop(context); // Tutup drawer
                 Navigator.push(context,

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_homeproyek/components/button.dart';
 import 'package:my_homeproyek/drawer.dart';
-import 'package:my_homeproyek/screens/appointment_page.dart';
+import 'package:my_homeproyek/screens/stock_request.dart';
 import 'package:my_homeproyek/screens/auth_page.dart';
 import 'package:my_homeproyek/utils/config.dart';
 import 'package:my_homeproyek/utils/text.dart';
