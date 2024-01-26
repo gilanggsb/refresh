@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:my_homeproyek/main_layout.dart';
 import 'package:my_homeproyek/utils/config.dart';
 import 'package:my_homeproyek/components/button.dart';
-import 'package:my_homeproyek/api_service.dart'; // Import ApiService
+import 'package:my_homeproyek/api_service.dart';
+import 'package:my_homeproyek/utils/storage.dart'; // Import ApiService
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
@@ -15,6 +18,8 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final ApiService apiService = ApiService(); // Gunakan ApiService
+  final StorageService storageService =
+      StorageService.instance; // Gunakan ApiService
 
   bool obsecurePass = true;
 
@@ -76,9 +81,13 @@ class _LoginFormState extends State<LoginForm> {
               try {
                 Map<String, dynamic> result =
                     await apiService.loginUser(USERID, USERPASSWORD);
+                result['USERID'] = USERID;
+                result['USERPASSWORD'] = USERPASSWORD;
                 print('Login Result: ${result["code"]}');
                 print('Login Result: $result');
                 if (result['code'] == "1") {
+                  storageService.save(StorageKeys.USER, result);
+
                   showSuccess("user was successfully login");
                 } else {
                   print('Login Failed');

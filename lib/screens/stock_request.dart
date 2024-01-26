@@ -162,6 +162,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_homeproyek/api_service.dart';
 import 'package:my_homeproyek/drawer.dart';
+import 'package:my_homeproyek/utils/storage.dart';
 
 class AppointmentPage extends StatefulWidget {
   const AppointmentPage({Key? key}) : super(key: key);
@@ -172,7 +173,8 @@ class AppointmentPage extends StatefulWidget {
 
 class _AppointmentPageState extends State<AppointmentPage> {
   final Apiuser apiuser = Apiuser();
-  Map<String, dynamic>? srData;
+  final StorageService storageService = StorageService.instance;
+  List? srData;
 
   @override
   void initState() {
@@ -182,16 +184,19 @@ class _AppointmentPageState extends State<AppointmentPage> {
 
   Future<void> fetchData() async {
     try {
-      final response = await apiuser.dataUser('USERID', 'USERPASSWORD');
+      final userData = storageService.get(StorageKeys.USER);
+      final response =
+          await apiuser.dataUser(userData['USERID'], userData['USERPASSWORD']);
+      print(response);
 
       // Check if the response is not null and contains a 'code' field
-      if (response != null && response.containsKey('code')) {
+      if (response.containsKey('code')) {
         final resultCode = response['code'];
 
         setState(() {
           // Check the 'code' to determine if the request was successful
           if (resultCode == "1") {
-            srData = response;
+            srData = response["msg"];
             print(response["msg"]);
           } else {
             // Handle the case where the request was not successful
@@ -213,15 +218,15 @@ class _AppointmentPageState extends State<AppointmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stock Request'),
+        title: const Text('Stock Request'),
       ),
-      drawer: MyDrawer(),
+      drawer: const MyDrawer(),
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: srData == null
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : (srData!.isEmpty
-                ? Center(child: Text('No data available'))
+                ? const Center(child: Text('No data available'))
                 : DataTable(
                     columns: const [
                       DataColumn(label: Text('Sr No')),
@@ -233,18 +238,20 @@ class _AppointmentPageState extends State<AppointmentPage> {
                       DataColumn(label: Text('Qty SR')),
                       DataColumn(label: Text('To No')),
                     ],
-                    rows: [
-                      DataRow(cells: [
-                        DataCell(Text(srData!['SRNO'].toString())),
-                        DataCell(Text(srData!['SRDATE'].toString())),
-                        DataCell(Text(srData!['BRAND'].toString())),
-                        DataCell(Text(srData!['LOCFROM'].toString())),
-                        DataCell(Text(srData!['LOCTO'].toString())),
-                        DataCell(Text(srData!['STATUS'].toString())),
-                        DataCell(Text(srData!['QTYSR'].toString())),
-                        DataCell(Text(srData!['TONO'].toString())),
-                      ]),
-                    ],
+                    rows: srData!
+                        .map(
+                          (e) => DataRow(cells: [
+                            DataCell(Text(e['SRNO'].toString())),
+                            DataCell(Text(e['SRDATE'].toString())),
+                            DataCell(Text(e['BRAND'].toString())),
+                            DataCell(Text(e['LOCFROM'].toString())),
+                            DataCell(Text(e['LOCTO'].toString())),
+                            DataCell(Text(e['STATUS'].toString())),
+                            DataCell(Text(e['QTYSR'].toString())),
+                            DataCell(Text(e['TONO'].toString())),
+                          ]),
+                        )
+                        .toList(),
                   )),
       ),
     );

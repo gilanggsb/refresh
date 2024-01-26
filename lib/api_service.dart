@@ -1,15 +1,22 @@
 // api_service.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+class ApiUrl {
+  static String BASE_URL = 'http://108.136.252.63:8080/refresh';
+  static String LOGIN_URL = '$BASE_URL/login.php/LOGIN';
+  static String DATA_USER = '$BASE_URL/datasr.php/DATASR';
+}
 
 class ApiService {
-  final String baseUrl = 'http://108.136.252.63:8080/refresh/login.php';
+  // final String baseUrl = '';
 
   Future<Map<String, dynamic>> loginUser(
       String USERID, String USERPASSWORD) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/LOGIN'),
+        Uri.parse(ApiUrl.LOGIN_URL),
         body: {
           'ACTION': 'LOGIN',
           'USERID': USERID,
@@ -24,19 +31,19 @@ class ApiService {
       }
     } catch (error) {
       print('Error: $error');
-      throw error;
+      rethrow;
     }
   }
 }
 
 class Apiuser {
-  final String baseUrl = 'http://108.136.252.63:8080/refresh/datasr.php';
+  // final String baseUrl = 'http://108.136.252.63:8080/refresh/';
 
   Future<Map<String, dynamic>> dataUser(
       String USERID, String USERPASSWORD) async {
     try {
       final response = await http.post(
-        Uri.parse('$baseUrl/DATASR'),
+        Uri.parse(ApiUrl.DATA_USER),
         body: {
           'ACTION': 'DATASR',
           'USERID': USERID,

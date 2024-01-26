@@ -3,8 +3,9 @@ import 'package:my_homeproyek/utils/config.dart';
 import 'package:my_homeproyek/main_layout.dart';
 import 'package:my_homeproyek/screens/auth_page.dart';
 import 'package:my_homeproyek/components/login_form.dart';
+import 'package:my_homeproyek/utils/storage.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 

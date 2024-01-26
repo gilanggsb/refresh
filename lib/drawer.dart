@@ -6,6 +6,8 @@ import 'package:my_homeproyek/screens/auth_page.dart';
 import 'package:my_homeproyek/screens/home_page.dart';
 
 class MyDrawer extends StatelessWidget {
+  const MyDrawer({super.key});
+
   Future<void> _showLogoutConfirmationDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
@@ -79,37 +81,41 @@ class MyDrawer extends StatelessWidget {
               )),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text("Beranda"),
+              leading: const Icon(Icons.home),
+              title: const Text("Beranda"),
               onTap: () {
                 Navigator.pop(context); // Tutup drawer
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MainLayout()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MainLayout()));
               },
             ),
             ListTile(
-              leading: Icon(Icons.people),
-              title: Text("Stock Request"),
+              leading: const Icon(Icons.people),
+              title: const Text("Stock Request"),
               onTap: () {
                 Navigator.pop(context); // Tutup drawer
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AppointmentPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AppointmentPage()));
               },
             ),
             ListTile(
-              leading: Icon(Icons.money),
-              title: Text("Transaksi"),
+              leading: const Icon(Icons.money),
+              title: const Text("Transaksi"),
               onTap: () {},
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.emoji_emotions),
-              title: Text("Profil"),
+              leading: const Icon(Icons.emoji_emotions),
+              title: const Text("Profil"),
               onTap: () {},
             ),
             ListTile(
-              leading: Icon(Icons.info),
-              title: Text("Tentang"),
+              leading: const Icon(Icons.info),
+              title: const Text("Tentang"),
               onTap: () {},
             ),
             Button(
